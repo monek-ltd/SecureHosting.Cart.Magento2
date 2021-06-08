@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="monek_securehosting" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Secure Hosting (Monek) </label>
+                <field id="active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                    <comment><![CDATA[Title will be displayed to customer when selecting payment.]]></comment>
+                    <config_path>payment/monek_securehosting/title</config_path>
+                </field>
+                <field id="shreference" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SH Reference</label>
+                    <config_path>payment/monek_securehosting/shreference</config_path>
+                </field>
+                <field id="checkcode" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Check Code</label>
+                    <config_path>payment/monek_securehosting/checkcode</config_path>
+                </field>
+                <field id="filename" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>File Name</label>
+                    <config_path>payment/monek_securehosting/filename</config_path>
+                </field>
+                <field id="activate_as" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Activate Advanced Secuitems</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="as_phrase" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Advanced Secuitems Phrase</label>
+                    <config_path>payment/monek_securehosting/as_phrase</config_path>
+                </field>
+                <field id="as_referrer" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shopping Cart Referrer</label>
+                    <config_path>payment/monek_securehosting/as_referrer</config_path>
+                </field>
+                <field id="sharedsecret" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shared Secret</label>
+                    <config_path>payment/monek_securehosting/sharedsecret</config_path>
+                </field>
+                <field id="testmode" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Test Mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="redirect_message" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Redirect Message</label>
+                    <config_path>payment/monek_securehosting/redirect_message</config_path>
+                </field>
+                <field id="auto_invoice" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Auto Invoice</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ship to Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="debug_log" translate="label" type="select" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Debug Log</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>payment/monek_securehosting/debug_log</config_path>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

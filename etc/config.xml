@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <payment>
+            <securehosting>
+                <payment_action>capture</payment_action><!-- You can use another methor like capture  -->
+                <active>1</active>
+                <title>Secure Hosting (Monek) </title>
+                <order_status>pending</order_status><!-- set default order status-->
+                <instructions>Pay Via Monek SecureHosting.</instructions>
+                <test>1</test>
+                <model>Monek\SecureHosting\Model\MonekPaymentMethod</model>
+                <redirect_message>You will be redirected to the Secure Hosting and Payments website when you place an order.</redirect_message>
+                <shreference>SH000000</shreference>
+                <checkcode>000000</checkcode>
+                <filename>magento_template.html</filename>
+                <activate_as>0</activate_as>
+                <testmode>0</testmode>
+                <auto_invoice>1</auto_invoice>               
+                <cgi_url_test_mode>https://test.secure-server-hosting.com/secutran/secuitems.php</cgi_url_test_mode>
+                <cgi_url>https://www.secure-server-hosting.com/secutran/secuitems.php</cgi_url>
+            </securehosting>
+        </payment>
+    </default>
+</config>
