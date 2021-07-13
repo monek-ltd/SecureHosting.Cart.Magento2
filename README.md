@@ -1,10 +1,15 @@
-# Legacy Magento Cart
+# Magento Cart 2
 
 ## Installation
 
+### Note ssh access required to server
 
-1.	Copy the directory "app/code" to the root of your shopping cart where you should already find directory called "app/code".
+1.	On The server goto the magento folder: app
 
+2.	create the folder structure: code->Monek->SecureHosting
+
+3.      Download the code from the repo to this folder
+                                          
 2.	Upload the below HTML files to your Secure Hosting account. We recommend uploading the default files first, testing,
 	then amending these files as required. File uploads are managed within your Secure Hosting	and Payments account via 
 	the menu option 'Settings -> File Manager':
