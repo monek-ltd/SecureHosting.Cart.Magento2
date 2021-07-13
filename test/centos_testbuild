@@ -11,7 +11,6 @@ if ! [ "$centosversion" == "8" ]; then
 fi
 
 #ensure this is up to date
-yum update -y
 yum install -y zip unzip nano bind-utils
 
 #install apache
@@ -50,10 +49,10 @@ systemctl enable --now elasticsearch.service
 #setup the database - in prod you would not use these values!
 yum install -y mysql mysql-server
 sudo systemctl start mysqld
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass'"
-mysql -u root -pMyNewPass -e "CREATE DATABASE magento;"
-mysql -u root -pMyNewPass -e "CREATE USER 'magento'@'localhost' IDENTIFIED BY 'pdsfsdf4t4ksword';"
-mysql -u root -pMyNewPass -e "GRANT ALL PRIVILEGES ON magento.* TO "magento"@"localhost";"
+mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'password10'"
+mysql -u root -ppassword10 -e "CREATE DATABASE magento;"
+mysql -u root -ppassword10 -e "CREATE USER 'magento'@'localhost' IDENTIFIED BY 'password10';"
+mysql -u root -ppassword10 -e "GRANT ALL PRIVILEGES ON magento.* TO "magento"@"localhost";"
 
 #setup composer
 cd /root
@@ -111,7 +110,6 @@ chmod u+x bin/magento
 restorecon -R /var/www/magento
 setsebool -P httpd_unified 1
 systemctl restart httpd.service
-bin/magento module:disable Magento_TwoFactorAuth
 
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 
@@ -120,18 +118,25 @@ php /var/www/magento/bin/magento setup:install \
 --db-host="localhost" \
 --db-name="magento" \
 --db-user="magento" \
---db-password="pdsfsdf4t4ksword" \
+--db-password="password10" \
 --search-engine="elasticsearch7" \
 --admin-firstname="admin" \
 --admin-lastname="admin" \
 --admin-email="admin@centlinux.com" \
 --admin-user="admin" \
---admin-password="Ahmer@1234" \
+--admin-password="password10" \
 --language="en_US" \
---currency="USD" \
---timezone="America/Chicago" \
+--currency="GBP" \
+--timezone="Europe/London" \
 --use-rewrites="1" \
 --backend-frontname="admin"
+
+
+sed --in-place=.BAK 's:SELINUX=[a-z]*:SELINUX=disabled:g' /etc/selinux/config
+setenforce 0
+bin/magento module:disable Magento_TwoFactorAuth
+bin/magento cron:install
+
 
 cat <<EOT >> /var/www/magento/var/composer_home/auth.json
 {
@@ -144,8 +149,10 @@ cat <<EOT >> /var/www/magento/var/composer_home/auth.json
 }
 EOT
 
-#php -d memory_limit=4G bin/magento sampledata:deploy
-#php -d memory_limit=4G bin/magento setup:upgrade
+php -d memory_limit=4G bin/magento sampledata:deploy
+php -d memory_limit=4G bin/magento setup:upgrade
+php -d memory_limit=4G bin/magento setup:static-content:deploy -f
+php -d memory_limit=4G bin/magento setup:di:compile
 
 
 
@@ -164,8 +171,7 @@ git clone https://github.com/monek-ltd/SecureHosting_Magento2.git
 mv SecureHosting_Magento2 SecureHosting
 cd /var/www/magento
 php -d memory_limit=4G bin/magento setup:upgrade
-php -d memory_limit=4G  bin/magento setup:static-content:deploy –f (development mode)
-php -d memory_limit=4G  bin/magento setup:static-content:deploy  (production mode)
+php -d memory_limit=4G  bin/magento setup:static-content:deploy 
 php -d memory_limit=4G  bin/magento cache:flush
 
 
