@@ -12,11 +12,51 @@ fi
 
 #ensure this is up to date
 yum update -y
-yum install -y nano 
+yum install -y zip unzip php-zip nano
 
 #install apache
 sudo yum install -y httpd
 sudo systemctl start httpd
 sudo systemctl enable httpd
 
- yum -y install php74u-pdo php74u-mysqlnd php74u-opcache php74u-xml php74u-gd php74u-devel php74u-mysql php74u-intl php74u-mbstring php74u-bcmath php74u-json php74u-iconv php74u-soap
+sudo dnf install epel-release -y
+sudo dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
+sudo dnf module enable -y php:remi-7.4
+sudo dnf install -y php php-cli php-common
+yum -y install php74*pdo php74*mysqlnd php74*opcache php74*xml php74*gd php74*mysql php74*intl php74*mbstring php74*bcmath php74*json php74*iconv php74*soap php74*zip
+
+sudo systemctl restart httpd
+yum install -y mysql mysql-server
+sudo systemctl start mysqld
+
+#setup the database - in prod you would not use these values!
+mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass'"
+mysql -u root -pMyNewPass -e "CREATE DATABASE magento;"
+mysql -u root -pMyNewPass -e "CREATE USER 'magento'@'localhost' IDENTIFIED BY 'pdsfsdf4t4ksword';"
+mysql -u root -pMyNewPass -e "GRANT ALL PRIVILEGES ON magento.* TO "magento"@"localhost";"
+
+#setup composer
+cd /root
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php --install-dir=/usr/bin/ --filename=composer
+
+cd /var/www/html
+
+echo "{" > /root/.config/composer/auth.json
+echo '"bitbucket-oauth": {},' >> /root/.config/composer/auth.json
+echo '"github-oauth": {},' >> /root/.config/composer/auth.json
+echo '"gitlab-oauth": {},' >> /root/.config/composer/auth.json
+echo '"gitlab-token": {},' >> /root/.config/composer/auth.json
+echo '"http-basic": {' >> /root/.config/composer/auth.json
+echo '"repo.magento.com": {' >> /root/.config/composer/auth.json
+echo  '"username": "3e81cf114dd51c7601e9418dfb7e7dcf",' >> /root/.config/composer/auth.json
+echo  '"password": "8fb71dda33eb1e7ea02bbee106f115e1"' >> /root/.config/composer/auth.json
+echo  '}' >> /root/.config/composer/auth.json
+echo  '},' >> /root/.config/composer/auth.json
+echo  ' "bearer": {}' >> /root/.config/composer/auth.json
+echo  '}' >> /root/.config/composer/auth.json
+
+sudo composer create-project --repository=https://repo.magento.com/ magento/project-community-edition magento
+
+
+
